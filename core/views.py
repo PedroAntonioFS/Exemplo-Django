@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Compra
 from .forms import CompraForm
@@ -20,10 +20,20 @@ def cadastrar(request):
     if request.method == "POST":
         form = CompraForm(request.POST)
         if form.is_valid():
-            compra = form.save(commit=False)
-            compra.save()
+            form.save()
             return redirect('listar')
     else:
         form = CompraForm()
+    return render(request, 'core/cadastrar.html', {'form': form})
+
+def editar(request, pk):
+    compra = get_object_or_404(Compra,id=pk)
+    if request.method == "POST":
+        form = CompraForm(request.POST, instance=compra)
+        if form.is_valid():
+            form.save()
+            return redirect('listar')
+    else:
+        form = CompraForm(instance=compra)
     return render(request, 'core/cadastrar.html', {'form': form})
 

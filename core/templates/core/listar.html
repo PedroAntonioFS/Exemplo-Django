@@ -11,8 +11,9 @@
     <br>
     <ul>
         {% for compra in lista %}
-            <li>{{ compra.item }}</li>
+            <li>{{ compra.item }} <a href="{% url 'editar' compra.id %}">editar</a></li>
         {% endfor %}
     </ul>
+    <a href="{% url 'cadastrar' %}">Cadastrar</a>
 </body>
 </html>
