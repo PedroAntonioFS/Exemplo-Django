@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from .models import lista_de_compras
-from .forms import lista_de_compra_form
+from .models import Compra
+from .forms import CompraForm
 
 # Create your views here.
 def index(request):
@@ -12,6 +12,18 @@ def index(request):
 
     return render(request, 'core/index.html', context)
 
+def listar(request):
+    lista = Compra.objects.all()
+    return render(request, 'core/listar.html', {'lista': lista})
+
 def cadastrar(request):
-    return render(request, 'core/cadastrar.html')
+    if request.method == "POST":
+        form = CompraForm(request.POST)
+        if form.is_valid():
+            compra = form.save(commit=False)
+            compra.save()
+            return redirect('listar')
+    else:
+        form = CompraForm()
+    return render(request, 'core/cadastrar.html', {'form': form})
 

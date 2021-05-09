@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class lista_de_compras(models.Model):
+class Compra(models.Model):
     item = models.CharField(
         'item',
         default=None,
